@@ -1,0 +1,105 @@
+.form {
+    position: relative;
+    transition: height .6s ease-in-out;
+
+    &__title {
+        text-align: center;
+        font-size: toRem(20);
+        margin-bottom: toRem(16);
+    }
+
+    &__line {
+        & + & {
+            margin-top: toRem(8);
+        }
+    }
+
+    &__button {
+        margin-top: toRem(16);
+        width: 100%;
+    }
+
+    &__body {
+        opacity: 1;
+        transition: opacity .8s ease-out;
+    }
+
+    &__heart {
+        opacity: 0;
+        transition: opacity .8s ease-out;
+        display: inline-block;
+        animation: heartbeat 1s infinite;
+        background-color: #dc143c;
+        height: 50px;
+        margin: 0 10px;
+        position: relative;
+        top: 0;
+        transform: rotate(-45deg);
+        position: absolute;
+        left: 40%;
+        top: 30%;
+        width: 50px;
+
+        &::before{
+            content: "";
+            background-color: crimson;
+            border-radius: 50%;
+            height: 50px;
+            position: absolute;
+            width: 50px;
+
+            top: -25px;
+            left: 0;
+        }
+        &::after{
+            content: "";
+            background-color: crimson;
+            border-radius: 50%;
+            height: 50px;
+            position: absolute;
+            width: 50px;
+
+            left: 25px;
+            top: 0;
+        }
+
+        @keyframes heartbeat
+        {
+            0%
+            {
+                transform: scale( 1 )
+                rotate(-45deg);
+            }
+            20%
+            {
+                transform: scale( 1.25 )
+                rotate(-45deg);
+            }
+            40%
+            {
+                transform: scale( 1.5 )
+                rotate(-45deg);
+            }
+        }
+    }
+
+    &.active {
+        .form {
+            &__body {
+                opacity: 0;
+            }
+            &__heart {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__response {
+        text-align: center;
+        font-size: toRem(14);
+        line-height: toRem(24);
+
+        opacity: 0;
+        transition: opacity .8s ease-out;
+    }
+}

@@ -1,0 +1,33 @@
+.input {
+    position: relative;
+
+    &__value {
+        font-family: inherit;
+        border: 1px solid rgba(255, 0, 0, 0.18);
+        padding: toRem(20) toRem(16);
+        height: toRem(52);
+        font-size: toRem(14);
+        background-color: white;
+        color: rgba(black, 0.8);
+        font-weight: 300;
+    }
+    &__placeholder{
+        font-family: inherit;
+        color: rgba(black,0.6);
+        position: absolute;
+        font-size: toRem(14);
+        top: 50%;
+        left: toRem(14);
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    &.focus {
+        .input {
+            &__placeholder {
+                opacity: 0;
+                pointer-events: inherit;
+            }
+        }
+    }
+}

@@ -1,23 +1,36 @@
 <template lang="pug">
     include ../../tools/mixins.pug
     div
-        header-component
-        div(style="font-size:80px;text-align: center") New project
-        footer-component
+        main-component(
+            @openPopup="togglePopup"
+        )
+        popup-component(
+            :class="{'active': popup.active}"
+            @closePopup="togglePopup"
+        )
 
 </template>
 
 <script>
-    import MyHeader from '../sections/TheHeader.vue'
-    import MyFooter from '../sections/TheFooter.vue'
+    import Popup from '../sections/Popup.vue'
+    import Main from '../sections/Main.vue'
 
     export default {
         data() {
-            return {};
+            return {
+                popup: {
+                    active: false
+                }
+            };
         },
         components: {
-            'header-component': MyHeader,
-            'footer-component': MyFooter,
+            'main-component': Main,
+            'popup-component': Popup,
+        },
+        methods: {
+            togglePopup() {
+                this.popup.active = !this.popup.active
+            }
         }
     };
 </script>
