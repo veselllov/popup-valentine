@@ -41,19 +41,26 @@
         // },
         methods: {
             onFocus() {
+                this.focus = false;
                 if(this.value.content === "") {
                     this.focus = true;
                 }
             },
             onBlur() {
+                this.checkValue()
+            },
+            checkValue(){
+                this.focus = true;
                 if(this.value.content === ''){
                     this.focus = false;
                 }
-            },
+            }
         },
         watch: {
-            'value.content': function(value){
-                this.onBlur()
+            'value.content': {
+                // коллбэк будет вызван сразу же после начала наблюдения
+                handler: 'checkValue',
+                immediate: true
             }
         }
     }
