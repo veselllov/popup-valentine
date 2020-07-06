@@ -4,6 +4,7 @@
         :class="[{'focus': focus}]"
     )
         +e.INPUT.value(
+            ref="value"
             :class="{'error': error}"
             v-model="value.content"
             v-on:focus="onFocus"
@@ -14,8 +15,13 @@
 
 <script>
 
-    export default {
+    export default
+    {
         props: {
+            focus: {
+                required: true,
+                type: Boolean
+            },
             placeholder: {
                 required: true,
                 type: [String,Number]
@@ -24,19 +30,20 @@
                 required: true,
                 type: Object
             },
-        },
-        data() {
-            return {
-                focus: false
+            error: {
+                type: Boolean,
+                required: false
             }
         },
         methods: {
             onFocus() {
-                this.focus = !this.focus
+                if(this.value.content === "") {
+                    this.focus = true
+                }
             },
             onBlur() {
-                if(this.value.content === ''){
-                    this.focus = false;
+                if(this.value.content === "") {
+                    this.focus = false
                 }
             },
         }

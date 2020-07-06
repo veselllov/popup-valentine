@@ -2,11 +2,10 @@
     include ../../tools/mixins.pug
     +b.form(
         ref="form"
-        :class="{'active': preloader.animate}"
+        :class="{'loading': load, 'send': send}"
         :style="form.style"
     )
         +e.body(
-            v-if="body.show"
             ref="body"
             :style="body.style"
         )
@@ -17,16 +16,22 @@
                 +e.INPUT-COMPONENT.input(
                     :value="input.value"
                     :placeholder="input.placeholder"
+                    :error="input.error"
+                    :focus="input.focus"
                 )
             +e.BUTTON.button.button(
-                v-on:click="goResponse"
+                v-on:click="$emit('sendForm')"
             ) {{ button }}
         +e.preloader
-            +e.heart
+            +e.spinner
         +e.response(
             ref="resp"
             :style="response.style"
-        ) Валентинка уже летит к получателю. Любите друг друга...<br> И ждите...<br> Не смотря ни на что...
+        )
+            +e.text--response Валентинка уже летит к получателю. Любите друг друга...<br> И ждите...<br> Не смотря ни на что...
+            +e.BUTTON.button.button(
+                v-on:click="$emit('closePopup')"
+            ) {{ buttonResponse }}
 </template>
 
 <script>
@@ -36,6 +41,10 @@
         props: {
             title: String,
             button: String,
+            buttonResponse: String,
+            load: Boolean,
+            send: Boolean,
+            inputs: Array
         },
         data() {
             return {
@@ -45,76 +54,47 @@
                     }
                 },
                 body: {
-                    show: true,
                     style: {
                         height: 'auto',
                     }
                 },
-                preloader: {
-                    animate: false,
-                },
                 response: {
-                    show: false,
                     style: {
                         height: 'auto',
-                        zIndex: -1,
-                        opacity: 0,
                     },
                 },
-                inputs: [
-                    {
-                        value: {
-                            content: ''
-                        },
-                        placeholder: 'Имя',
-                        error: false
-                    },
-                    {
-                        value: {
-                            content: ''
-                        },
-                        placeholder: 'Телефон',
-                        error: false
-                    },
-                    {
-                        value: {
-                            content: ''
-                        },
-                        placeholder: 'Email',
-                        error: false
-                    },
-                ],
             }
         },
         mounted() {
-            this.form.style.height = this.$refs.form.offsetHeight - this.$refs.resp.offsetHeight + 'px'
-        },
-        computed: {
-            popupData() {
-                return {
-                    name: this.inputs[0].value.content,
-                    phone: this.inputs[1].value.content,
-                    email: this.inputs[2].value.content,
-                }
-                console.log('Yeah!')
+
+            for(let item of Object.values(this.inputs)) {
+                item.focus = false
             }
+
+            this.form.style.height = this.$refs.form.offsetHeight + 'px'
+
+            // this.form.style.height = this.$refs.form.offsetHeight - this.$refs.resp.offsetHeight + 'px'  // Ну никак не в миксине, здесь лежит
+
+            // this.body.style.height = this.$refs.body.offsetHeight + 'px'
+            //
+            // this.response.style.height = this.$refs.resp.offsetHeight + 'px'
+
         },
-        methods: {
-            goResponse() {
+        watch: {
+            load() {
+                for(let item of Object.values(this.inputs)) {
+                    item.focus = true
+                }
+            },
+
+            send() {
                 this.form.style.height = this.$refs.resp.offsetHeight + 'px'
-                this.preloaderAnimation()
-                this.body.show = false
-                setTimeout(this.preloaderAnimation, 2000)
-                this.response.show = true
-                setTimeout(this.responseStyle, 2500)
-                this.clearData()
-            },
-            preloaderAnimation() {
-                this.preloader.animate = !this.preloader.animate
-            },
-            responseStyle() {
-                this.response.style.zIndex = 1
-                this.response.style.opacity = 1
+                if(!this.send) {
+                    this.form.style.height = this.$refs.body.offsetHeight + 'px'
+                }
+                for(let item of Object.values(this.inputs)) {
+                    item.focus = false
+                }
             }
         },
         components: {

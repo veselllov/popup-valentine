@@ -2,35 +2,34 @@
     include ../../tools/mixins.pug
     div
         main-component(
-            @openPopup="togglePopup"
+            @openPopup="openPopup"
         )
         popup-component(
-            :class="{'active': popup.active}"
-            @closePopup="togglePopup"
+            ref="popup"
+            :class="{'active': active}"
+            @closePopup="closePopup"
         )
-
 </template>
 
 <script>
-    import Popup from '../sections/Popup.vue'
     import Main from '../sections/Main.vue'
 
+    import Popup from '../sections/Popup.vue'
+    import {popupParentLogic} from "../../mixins/popup/popupParentLogic.js"
+
     export default {
+        mixins: [
+            popupParentLogic
+        ],
         data() {
             return {
-                popup: {
-                    active: false
-                }
-            };
+                active: false
+            }
         },
+
         components: {
             'main-component': Main,
             'popup-component': Popup,
         },
-        methods: {
-            togglePopup() {
-                this.popup.active = !this.popup.active
-            }
-        }
     };
 </script>

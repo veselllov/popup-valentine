@@ -5,12 +5,13 @@
             +e.button.button(
                 v-on:click="$emit('openPopup')"
             ) Послать валентинку
+
 </template>
 
 <script>
     export default {
-        data() {
-            return {}
+        data: function() {
+            return { visible: false }
         }
     }
 </script>

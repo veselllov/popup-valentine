@@ -1,9 +1,13 @@
 import Vue from 'vue'
+
+import ElementUI from 'element-ui';
+
 import App from './App.vue'
 import {createStore} from './store'
 import {createRouter} from './router'
 import {sync} from 'vuex-router-sync'
 import titleMixin from './util/title'
+
 
 if (process.browser) {
     const VueAwesomeSwiper = require('vue-awesome-swiper/dist/ssr')
@@ -26,6 +30,9 @@ export function createApp() {
     // create the app instance.
     // here we inject the router, store and ssr context to all child components,
     // making them available everywhere as `this.$router` and `this.$store`.
+
+    Vue.use(ElementUI);
+
     const app = new Vue({
         router,
         store,
