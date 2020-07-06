@@ -1,6 +1,8 @@
 <template lang="pug">
     include ../../tools/mixins.pug
-    +b.popup
+    +b.popup(
+        :class="{'active': active}"
+    )
         +e.wrapper
             +e.BUTTON.close(
                 v-on:click="$emit('closePopup')"
@@ -25,6 +27,11 @@
 
     export default {
         mixins: [popup],
+        props: {
+            active: {
+                type: Boolean
+            }
+        },
         data() {
             return {
                 load: false,
@@ -35,28 +42,40 @@
                             content: ''
                         },
                         placeholder: 'Имя',
-                        error: false,
-                        focus: Boolean,
                     },
                     {
                         value: {
                             content: ''
                         },
                         placeholder: 'Телефон',
-                        error: false,
-                        focus: Boolean,
                     },
                     {
                         value: {
                             content: ''
                         },
                         placeholder: 'Email',
-                        error: false,
-                        focus: Boolean,
                     },
                 ],
             }
         },
+        // mounted() {
+        //     for(let item of Object.values(this.inputs)) {
+        //         item.focus = false
+        //     }
+        // },
+        // watch: {
+        //     load() {
+        //         for(let item of Object.values(this.inputs)) {
+        //             item.focus = true
+        //         }
+        //     },
+        //
+        //     send() {
+        //         for(let item of Object.values(this.inputs)) {
+        //             item.focus = false
+        //         }
+        //     }
+        // },
         components: {
             'form-component': Form
         }

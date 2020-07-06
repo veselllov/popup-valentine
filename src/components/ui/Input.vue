@@ -18,10 +18,6 @@
     export default
     {
         props: {
-            focus: {
-                required: true,
-                type: Boolean
-            },
             placeholder: {
                 required: true,
                 type: [String,Number]
@@ -35,17 +31,30 @@
                 required: false
             }
         },
+        data() {
+            return {
+                focus: false,
+            }
+        },
+        // mounted() {
+        //     this.focus = false
+        // },
         methods: {
             onFocus() {
                 if(this.value.content === "") {
-                    this.focus = true
+                    this.focus = true;
                 }
             },
             onBlur() {
-                if(this.value.content === "") {
-                    this.focus = false
+                if(this.value.content === ''){
+                    this.focus = false;
                 }
             },
+        },
+        watch: {
+            'value.content': function(value){
+                this.onBlur()
+            }
         }
     }
 </script>

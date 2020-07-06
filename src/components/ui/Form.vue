@@ -17,7 +17,6 @@
                     :value="input.value"
                     :placeholder="input.placeholder"
                     :error="input.error"
-                    :focus="input.focus"
                 )
             +e.BUTTON.button.button(
                 v-on:click="$emit('sendForm')"
@@ -66,11 +65,6 @@
             }
         },
         mounted() {
-
-            for(let item of Object.values(this.inputs)) {
-                item.focus = false
-            }
-
             this.form.style.height = this.$refs.form.offsetHeight + 'px'
 
             // this.form.style.height = this.$refs.form.offsetHeight - this.$refs.resp.offsetHeight + 'px'  // Ну никак не в миксине, здесь лежит
@@ -81,19 +75,10 @@
 
         },
         watch: {
-            load() {
-                for(let item of Object.values(this.inputs)) {
-                    item.focus = true
-                }
-            },
-
             send() {
                 this.form.style.height = this.$refs.resp.offsetHeight + 'px'
                 if(!this.send) {
                     this.form.style.height = this.$refs.body.offsetHeight + 'px'
-                }
-                for(let item of Object.values(this.inputs)) {
-                    item.focus = false
                 }
             }
         },

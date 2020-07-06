@@ -6,7 +6,7 @@
         )
         popup-component(
             ref="popup"
-            :class="{'active': active}"
+            :active="active"
             @closePopup="closePopup"
         )
 </template>
